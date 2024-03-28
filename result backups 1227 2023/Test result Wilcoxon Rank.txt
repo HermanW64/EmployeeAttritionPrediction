@@ -1,0 +1,20 @@
+Compare the recall error of optimized models and that of not optimized one, for sampling strategy: none
+H0: median of recall error from optimized models = median of recall from not optimized one
+H1: median of recall error from optimized models < median of recall from not optimized one
+P-value is 0.0, therefore h0 is rejected!
+
+Compare the recall error of optimized models and that of not optimized one, for sampling strategy: under
+H0: median of recall error from optimized models = median of recall from not optimized one
+H1: median of recall error from optimized models < median of recall from not optimized one
+P-value is 0.0, therefore h0 is rejected!
+
+Compare the recall error of optimized models and that of not optimized one, for sampling strategy: over
+H0: median of recall error from optimized models = median of recall from not optimized one
+H1: median of recall error from optimized models < median of recall from not optimized one
+P-value is 0.0, therefore h0 is rejected!
+
+Compare the recall error of optimized models and that of not optimized one, for sampling strategy: smote
+H0: median of recall error from optimized models = median of recall from not optimized one
+H1: median of recall error from optimized models < median of recall from not optimized one
+P-value is 0.0, therefore h0 is rejected!
+

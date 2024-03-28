@@ -1,0 +1,4 @@
+Compare the median of recall error. It represents better performance when it is lower.
+H0: median(none) = median(under) = median(over) = median(smote)
+H1: median(none) >= median(under) >= median(over) >= median(smote), at least one inequality is strict
+L statistics is 922.5, and P-value is 0.0, therefore h0 is rejected!

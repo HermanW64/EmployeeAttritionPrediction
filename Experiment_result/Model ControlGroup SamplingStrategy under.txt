@@ -1,0 +1,32 @@
+                           Logit Regression Results                           
+==============================================================================
+Dep. Variable:              Attrition   No. Observations:                  278
+Model:                          Logit   Df Residuals:                      259
+Method:                           MLE   Df Model:                           18
+Date:                Wed, 27 Dec 2023   Pseudo R-squ.:                  0.2780
+Time:                        13:10:31   Log-Likelihood:                -139.13
+converged:                       True   LL-Null:                       -192.69
+Covariance Type:            nonrobust   LLR p-value:                 1.079e-14
+====================================================================================================
+                                       coef    std err          z      P>|z|      [0.025      0.975]
+----------------------------------------------------------------------------------------------------
+const                               -3.1125      0.807     -3.857      0.000      -4.694      -1.531
+BusinessTravel_Travel_Frequently     0.8449      0.362      2.334      0.020       0.135       1.554
+JobRole_Human Resources              1.0136      0.952      1.065      0.287      -0.852       2.879
+JobRole_Laboratory Technician        2.0721      0.801      2.587      0.010       0.502       3.642
+JobRole_Manager                      0.2255      1.234      0.183      0.855      -2.192       2.643
+JobRole_Manufacturing Director       1.3654      0.863      1.582      0.114      -0.326       3.057
+JobRole_Research Director            1.3442      1.376      0.977      0.328      -1.352       4.040
+JobRole_Research Scientist           1.1596      0.791      1.466      0.143      -0.391       2.710
+JobRole_Sales Executive              1.7232      0.711      2.425      0.015       0.330       3.116
+JobRole_Sales Representative         2.2664      0.907      2.498      0.012       0.488       4.045
+MaritalStatus_Married                0.2132      0.440      0.484      0.628      -0.650       1.076
+MaritalStatus_Single                 0.8566      0.459      1.866      0.062      -0.043       1.756
+OverTime_Yes                         1.9621      0.338      5.801      0.000       1.299       2.625
+EnvironmentSatisfaction             -0.3206      0.158     -2.031      0.042      -0.630      -0.011
+JobInvolvement                      -0.3515      0.157     -2.232      0.026      -0.660      -0.043
+JobSatisfaction                     -0.3645      0.154     -2.372      0.018      -0.666      -0.063
+MonthlyIncome                       -0.4637      0.377     -1.230      0.219      -1.203       0.275
+YearsAtCompany                      -0.3877      0.253     -1.530      0.126      -0.884       0.109
+YearsSinceLastPromotion              0.5592      0.211      2.645      0.008       0.145       0.974
+====================================================================================================
