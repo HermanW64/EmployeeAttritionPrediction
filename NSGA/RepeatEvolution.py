@@ -3,10 +3,11 @@ from NSGA.TerminationCriteria import termination_criteria
 from NSGA.Hyperparameters import set_nsga
 from NSGA.Evolution import evolve
 import logging
+
 logging.basicConfig(level="INFO")
 
 
-def repeat_evolution(sampling, total_repeat=1, max_gen=100, min_num_features=4,
+def repeat_evolution(sampling, total_repeat=1, max_gen=100, min_num_features=1,
                      total_num_features=None, x_train=None, y_train=None,
                      x_valid=None, y_valid=None, verbose=True):
     """
@@ -24,7 +25,7 @@ def repeat_evolution(sampling, total_repeat=1, max_gen=100, min_num_features=4,
     """
 
     # prepare container to record result from each evolution
-    recall_list = []
+    f1_score_error_list = []
     solution_list = []
     hv_list = []
 
@@ -45,15 +46,15 @@ def repeat_evolution(sampling, total_repeat=1, max_gen=100, min_num_features=4,
     while cycle <= total_repeat:
         logging.info("\n----the cycle {0} begins----".format(cycle))
         try:
-            min_recall, solution_binary, hv_value = evolve(problem=problem,
-                                                           termination=termination,
-                                                           algorithm=algorithm,
-                                                           sampling=sampling,
-                                                           total_num_features=total_num_features,
-                                                           cycle=cycle,
-                                                           verbose=verbose)
+            min_f1_error, solution_binary, hv_value = evolve(problem=problem,
+                                                             termination=termination,
+                                                             algorithm=algorithm,
+                                                             sampling=sampling,
+                                                             total_num_features=total_num_features,
+                                                             cycle=cycle,
+                                                             verbose=verbose)
 
-            recall_list.append(min_recall)
+            f1_score_error_list.append(min_f1_error)
             solution_list.append(solution_binary)
             hv_list.append(hv_value)
 
@@ -65,8 +66,8 @@ def repeat_evolution(sampling, total_repeat=1, max_gen=100, min_num_features=4,
             cycle += 1
 
     # after all repeats, get the lowest recall and the corresponding solution
-    best_index = recall_list.index(min(recall_list))
-    best_recall = recall_list[best_index]
+    best_index = f1_score_error_list.index(min(f1_score_error_list))
+    best_f1_error = f1_score_error_list[best_index]
     best_solution = solution_list[best_index]
 
-    return recall_list, best_solution, best_recall
+    return f1_score_error_list, best_solution, best_f1_error

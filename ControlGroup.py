@@ -12,7 +12,7 @@ def generate_control_group():
     :return: control_group (dict)
     """
     # if there is already the result, then no need to run with current balancing strategy
-    filename = "./Experiment_result/Recall Error ControlGroup.txt"
+    filename = "./Experiment_result/F1-Score ControlGroup.txt"
     if os.path.exists(filename):
         logging.info(f"The file '{filename}' already exists, no need to generate control group!")
         return
@@ -32,8 +32,8 @@ def generate_control_group():
                                                                y_train=y_train, y_valid=y_valid)
 
         # get the recall value
-        recall_error = round(1 - score_dict["recall"], 4)
-        control_group[strategy] = recall_error
+        f1_score_error = round(1 - score_dict["f1"], 4)
+        control_group[strategy] = f1_score_error
 
         # save the model detail as txt file
         original_model = str(logit_result.summary())
@@ -41,7 +41,7 @@ def generate_control_group():
             file.write(original_model)
 
     # save the recall errors as txt file
-    with open("./Experiment_result/Recall Error ControlGroup.txt", "w") as file:
+    with open("./Experiment_result/F1-Score Error ControlGroup.txt", "w") as file:
         for key, value in control_group.items():
             file.write(str(key) + ": " + str(value) + "\n")
 

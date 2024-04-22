@@ -16,9 +16,9 @@ def plot_pareto(plot_name, sampling, total_num_features, gen_f):
     plt.figure(figsize=(7, 5))
     plt.scatter(gen_f[:, 0], gen_f[:, 1], s=30, facecolors='none', edgecolors='blue')
     plt.title(title)
-    plt.xlabel("1 - recall")
+    plt.xlabel("1 - F1-Score")
     plt.xlim(0, 1)
-    plt.ylabel("number of variables")
+    plt.ylabel("Number of Features")
     plt.ylim(0, total_num_features)
     plt.savefig("./Pareto_Images/" + str(title) + ".png")
 
@@ -56,7 +56,7 @@ def evolve(problem, algorithm, termination, sampling, total_num_features=None, c
         plot_pareto(plot_name="Final pareto", sampling=sampling, total_num_features=total_num_features, gen_f=last_gen_f)
 
     # 3. calculate HV
-    # reference point should be the worst point among the population (1, total number of features)
+    # reference point should be the worst point among the population
     worst_obj1 = np.max(initial_gen_f[:, 0]).copy()
     worst_obj2 = np.max(initial_gen_f[:, 1]).copy()
     ref_point = np.array([worst_obj1, worst_obj2])
@@ -66,19 +66,19 @@ def evolve(problem, algorithm, termination, sampling, total_num_features=None, c
     hv_value = round(ind(initial_gen_f), 4)
     logging.info("HV value: " + str(hv_value))
 
-    # 4. record the best solutions and minimum recall error
+    # 4. record the best solutions and best f1 score
     # -- get the result data
     x = res.X
-    f = np.round(res.F, 4)
+    f = np.round(res.F, 6)
 
-    # -- find out the lowest recall_error from the result (validation set)
-    min_recall_index = np.argmin(f[:, 0])
-    min_recall = f[min_recall_index, 0]
+    # -- find out the lowest F1-score error from the result (validation set)
+    min_f1_error_index = np.argmin(f[:, 0])
+    min_f1_error = f[min_f1_error_index, 0]
 
     # -- find out the corresponding feature selection
-    best_solution = x[min_recall_index, :]
+    best_solution = x[min_f1_error_index, :]
     best_solution_binary = np.where(best_solution > 0.5, 1, 0)
-    logging.info("minimum recall error on validation set: " + str(min_recall))
+    logging.info("minimum F1-score error on validation set: " + str(min_f1_error))
     logging.info("number of the corresponding selected features: " + str(sum(best_solution_binary)))
 
-    return min_recall, best_solution_binary, hv_value
+    return min_f1_error, best_solution_binary, hv_value

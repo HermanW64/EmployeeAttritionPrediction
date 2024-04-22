@@ -42,7 +42,7 @@ class MyProblem(ElementwiseProblem):
         # Apply the binary threshold to x
         x_binary = np.where(x > 0.5, 1, 0)
 
-        # minimize 1 - recall (f1) and minimize the number of features (f2)
+        # minimize 1 - F1-Score (f1) and minimize the number of features (f2)
         # get the selected feature names
         f2 = np.sum(x_binary)
         if f2 < 1:
@@ -66,26 +66,32 @@ class MyProblem(ElementwiseProblem):
         p_values = logit_result.pvalues
         p_values_df = pd.DataFrame(p_values, columns=["p_value"])
 
-        # f1 (the 1st object function, not F1 score): 1 - recall
-        f1 = 1 - score_dict["recall"]
+        # f1 (the 1st objective function, not F1 score): 1 - F1-Score
+        # f2 (the 2nd objective function): number of features
+        f1 = 1 - score_dict["f1"]
 
         # set constraints for the problem
-        if (p_values_df['p_value'] >= 0.05).sum() / len(p_values) >= 0.1:
-            # discourage model with a lot of insignificant variables
-            penalty_f2 = 24
-            penalty_f1 = 0.99
-            out["F"] = [penalty_f1, penalty_f2]
+        # if (p_values_df['p_value'] >= 0.05).sum() / len(p_values) >= 0.1:
+        #     # discourage model with a lot of insignificant variables
+        #     penalty_f1 = 0.99
+        #     penalty_f2 = 24
+        #     out["F"] = [penalty_f1, penalty_f2]
 
-        elif np.isnan(p_values_df['p_value']).sum() >= 1:
+        if np.isnan(p_values_df['p_value']).sum() >= 1:
             # discourage model with invalid p-value
-            penalty_f2 = 24
             penalty_f1 = 0.99
+            penalty_f2 = 24
             out["F"] = [penalty_f1, penalty_f2]
 
         elif sum(x_binary) <= self.min_num_features:
             # discourage model with too few variables
-            penalty_f2 = 24
             penalty_f1 = 0.99
+            penalty_f2 = 24
+            out["F"] = [penalty_f1, penalty_f2]
+
+        elif (score_dict["recall"] == 0) or (score_dict["precision"] == 0):
+            penalty_f1 = 0.99
+            penalty_f2 = 24
             out["F"] = [penalty_f1, penalty_f2]
 
         else:
